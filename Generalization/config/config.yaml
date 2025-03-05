@@ -1,0 +1,20 @@
+# Configuration settings
+
+# Hyparameters
+learning_rate : 0.01
+momentum      : 0.9
+epochs        : 10
+batch_size    : 64
+val_split     : 0.1
+step_size     : 6
+gamma         : 0.1
+train_dataset : 'SVHN' # or 'MNIST'
+loss_function : 'CE' # or 'LSCE'
+optimizer_    : 'Adam' # or 'Adam'
+augmentation  : False
+use_batch_norm: True
+pre_train     : False
+fine_tune     : False
+model_name    : 'Adam_model'
+# Random seed
+SEED          : 42
