@@ -8,14 +8,14 @@ batch_size    : 64
 val_split     : 0.1
 step_size     : 6
 gamma         : 0.1
-train_dataset : 'MNIST' # or 'MNIST'
+train_dataset : 'SVHN' # or 'MNIST'
 loss_function : 'LSCE' # or 'LSCE'
 optimizer_    : 'Adam' # or 'Adam'
 augmentation  : True
 use_batch_norm: True
 pre_train     : False
-fine_tune     : False
-model_name    : 'best_model'
+fine_tune     : True
+model_name    : 'finetuned_best_model'
 # Random seed
 SEED          : 42
 
