@@ -41,9 +41,16 @@ Since the MNIST dataset contains grayscale images (1 channel) and the ResNet-18 
 5. **Feature extraction**
    - Use pre-trained models, especially those trained on large datasets like ImageNet, which have learned rich feature representations from diverse data.
    - Utilize a **pre-trained ResNet-18 model** trained on ImageNet (`torchvision.models` can be used with `pretrained=True`, or pre-trained weights can be manually loaded into the custom model).
-
+6. **Final model**: The best combination from the above settings to evaluate cross-dataset generalization.
 
 ## Final Results (Generalization Performance)
-- **Model:** The best combination from the above settings to evaluate cross-dataset generalization.
-1. Train the model on MNIST and evaluate its generalization by testing on both MNIST and SVHN.
-2. Train the model on MNIST, fine-tune the classifier layer (final classification head) on SVHN, and assess generalization by testing on both MNIST and SVHN.
+
+|Test accuracy |  svhn  |  mnist |
+|--------------|--------|--------|
+| base         | 0.9325 | 0.5845 |
+| remove BN    | 0.9320 | 0.6118 |
+| LSCE loss    | 0.9348 | 0.6395 |
+| augmentation | 0.9405 | 0.6608 |
+| Adam optim   | 0.9339 | 0.6560 |
+| pre-train    | 0.9424 | 0.5016 |
+| best model   | 0.9432 | 0.7544 |
