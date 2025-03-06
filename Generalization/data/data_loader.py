@@ -22,9 +22,8 @@ def load_data(batch_size, val_split, path_save_data = "Generalization\data\datas
         ])
         mnist_train_transform = transforms.Compose([
             transforms.RandomAffine(degrees=15, translate=(0.1, 0.1), scale=(0.8, 1.2)),
-            transforms.Resize(32),  # Resize explicitly instead of RandomResizedCrop
             transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
-            transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
+            transforms.Resize(32),  # Resize explicitly instead of RandomResizedCrop
             transforms.Grayscale(num_output_channels=3),  # Move this AFTER color transformations
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) 
