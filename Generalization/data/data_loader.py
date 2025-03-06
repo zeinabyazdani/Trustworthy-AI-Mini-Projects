@@ -57,8 +57,8 @@ def load_data(batch_size, val_split, path_save_data = "Generalization\data\datas
 
     mnist_train_ds = torchvision.datasets.MNIST(root= path_save_data, train=True, transform= mnist_train_transform, download = True)
     val_size = math.floor(len(mnist_train_ds) * val_split)
-    train_size = len(svhn_train_ds) - val_size
-    mnist_train_ds, mnist_val_ds = random_split(svhn_train_ds, [train_size, val_size])
+    train_size = len(mnist_train_ds) - val_size
+    mnist_train_ds, mnist_val_ds = random_split(mnist_train_ds, [train_size, val_size])
 
 
     svhn_test_ds  = torchvision.datasets.SVHN(root= path_save_data, split= "test",  transform= svhn_test_transform, download = True)
