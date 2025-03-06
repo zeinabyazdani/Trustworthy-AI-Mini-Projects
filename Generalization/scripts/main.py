@@ -96,19 +96,6 @@ if pre_train:
 else:
     # Load custom ResNet-18 model
     model = ResNet18(in_channels=3, n_classes=10, use_bn=use_batch_norm)
-    if fine_tune:
-        # Load the full model (since it was saved using torch.save(model, PATH))
-        pretrained_model = torch.load(os.path.join(model_path, "best_model.pth"))
-        # Extract the state dictionary
-        pretrained_weights = pretrained_model.state_dict()
-        # Load into the new model
-        model.load_state_dict(pretrained_weights)
-
-        # Freeze all convolutional layers (keep their weights unchanged)
-        for name, param in model.named_parameters():
-            if "fc" not in name:
-                param.requires_grad = False
-
 
 
 # Define loss function
