@@ -45,7 +45,7 @@ Since the MNIST dataset contains grayscale images (1 channel) and the ResNet-18 
 
 ## Final Results (Generalization Performance)
 
-|Test accuracy |  svhn  |  mnist |
+|Test accuracy |  SVHN  |  MNIST |
 |--------------|--------|--------|
 | base         | 0.9325 | 0.5845 |
 | remove BN    | 0.9320 | 0.6118 |
