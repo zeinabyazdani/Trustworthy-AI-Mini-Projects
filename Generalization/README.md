@@ -45,7 +45,5 @@ Since the MNIST dataset contains grayscale images (1 channel) and the ResNet-18 
 
 ## Final Results (Generalization Performance)
 - **Model:** The best combination from the above settings to evaluate cross-dataset generalization.
-1. Supervised:
-   - Train the model on MNIST and evaluate its generalization by testing on both MNIST and SVHN.
-2. Unsupervised
-   - Train the model on MNIST, fine-tune the classifier layer (final classification head) on SVHN, and assess generalization by testing on both MNIST and SVHN.
+1. Train the model on MNIST and evaluate its generalization by testing on both MNIST and SVHN.
+2. Train the model on MNIST, fine-tune the classifier layer (final classification head) on SVHN, and assess generalization by testing on both MNIST and SVHN.
