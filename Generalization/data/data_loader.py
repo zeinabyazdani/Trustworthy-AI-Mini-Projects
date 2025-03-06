@@ -26,6 +26,7 @@ def load_data(batch_size, val_split, path_save_data = "Generalization\data\datas
             transforms.RandomResizedCrop(32, scale=(0.8, 1.0)),
             transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
             transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
+            transforms.Resize((32, 32)),  # Resize MNIST to match SVHN
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) 
         ])
@@ -36,6 +37,7 @@ def load_data(batch_size, val_split, path_save_data = "Generalization\data\datas
             ])
         mnist_train_transform = transforms.Compose([
             transforms.Grayscale(num_output_channels=3),
+            transforms.Resize((32, 32)),  # Resize MNIST to match SVHN
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
             ])
@@ -45,6 +47,7 @@ def load_data(batch_size, val_split, path_save_data = "Generalization\data\datas
         ])
     mnist_test_transform = transforms.Compose([
         transforms.Grayscale(num_output_channels=3),
+        transforms.Resize((32, 32)),  # Resize MNIST to match SVHN
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
@@ -71,5 +74,6 @@ def load_data(batch_size, val_split, path_save_data = "Generalization\data\datas
     mnist_val_loader   = DataLoader(mnist_val_ds, batch_size=batch_size, shuffle=True)
     svhn_test_loader  = DataLoader(svhn_test_ds, batch_size=batch_size, shuffle=True)
     mnist_test_loader = DataLoader(mnist_test_ds, batch_size=batch_size, shuffle=True)
+    
 
     return svhn_train_loader, mnist_train_loader, svhn_val_loader, mnist_val_loader, svhn_test_loader, mnist_test_loader
