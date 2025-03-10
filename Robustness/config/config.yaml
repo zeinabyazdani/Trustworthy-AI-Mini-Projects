@@ -1,0 +1,6 @@
+# Configuration settings
+
+batch_size: 64 
+val_split : 0.8 
+data_path : '.'
+learning_rate: 0.01
