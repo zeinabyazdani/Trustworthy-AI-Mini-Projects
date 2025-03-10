@@ -26,6 +26,7 @@ The CIFAR-10 dataset consists of 60,000 color images (32×32) in 10 classes, wit
 
 FGSM: Normally, we aim to minimize the loss with respect to θ, but here it seems like we're taking a step in the direction of **gradient ascent** with respect to **x**. Specifically, we're adjusting the direction in a way that makes the loss slightly larger. However, instead of using the actual gradient value, we only use its **sign** and scale it by a small **epsilon**.
 
+x′=x+ϵ⋅sign(∇xJ(θ,x,y))
 
 ### 3. Model Training and Evaluation
 #### **Scenario A: Training with Original Data (Cross-Entropy Loss)**
