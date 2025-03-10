@@ -13,6 +13,7 @@ def load_data(batch_size=64, val_split=0.8, data_path='.'):
     ])
     test_transform = transforms.compose([
             transforms.ToTensor(),
+            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.229, 0.224, 0.225]),
     ])
 
     train_ds = torchvision.datasets.CIFAR10(root=data_path, train=True, transform=train_transform, download=True)
