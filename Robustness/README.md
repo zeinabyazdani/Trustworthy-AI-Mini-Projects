@@ -21,9 +21,11 @@ The CIFAR-10 dataset consists of 60,000 color images (32×32) in 10 classes, wit
 - Load the pre-trained ResNet-18 model.
 
 ### 2. Generate Adversarial Examples
-- Provide a brief explanation of PGD (Projected Gradient Descent) attacks.
 - Generate adversarial examples using FGSM (Fast Gradient Sign Method) with epsilon = 0.1.
 - Modify a subset of image pixels randomly and visualize some adversarial samples.
+
+FGSM: Normally, we aim to minimize the loss with respect to θ, but here it seems like we're taking a step in the direction of **gradient ascent** with respect to **x**. Specifically, we're adjusting the direction in a way that makes the loss slightly larger. However, instead of using the actual gradient value, we only use its **sign** and scale it by a small **epsilon**.
+
 
 ### 3. Model Training and Evaluation
 #### **Scenario A: Training with Original Data (Cross-Entropy Loss)**
