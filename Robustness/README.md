@@ -11,8 +11,8 @@ This project explores adversarial attacks and defenses using the CIFAR-10 datase
 
 ## Dataset
 The CIFAR-10 dataset consists of 60,000 color images (32×32) in 10 classes, with each class containing 6,000 images. The dataset is split as follows:
-- 20% for training
-- 80% for validation
+- 80% for training
+- 20% for validation
 
 
 ## Implementation Steps
