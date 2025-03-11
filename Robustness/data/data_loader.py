@@ -7,7 +7,7 @@ import numpy as np
 import math
 
 
-def load_data(batch_size=64, val_split=0.8, data_path='.'):
+def load_data(batch_size=64, val_split=0.2, data_path='.'):
 
     # Define transforms
     transform = transforms.compose([
@@ -28,8 +28,7 @@ def load_data(batch_size=64, val_split=0.8, data_path='.'):
     train_sampler = data.SubsetRandomSampler(train_idx)
     val_sampler   = data.SubsetRandomSampler(val_idx)
 
-    # print(f"train_ds: {len(train_ds)}, \nsvhn_test_ds: {len(test_ds)}, \nvalidation_ds: {len(val_ds)}")
-
+    # Create data loader
     train_loader = DataLoader(train_ds, batch_size, sampler=train_sampler)
     val_loader   = DataLoader(train_ds, batch_size, sampler=val_sampler)
     test_loader  = DataLoader(test_ds, batch_size, shuffle=True)
