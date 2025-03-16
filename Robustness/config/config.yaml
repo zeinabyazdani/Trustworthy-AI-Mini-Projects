@@ -5,3 +5,4 @@ val_split : 0.8
 data_path : '.'
 learning_rate: 0.01
 epsilon : 0.1
+loss_func : "CE" # or "circle"
