@@ -42,7 +42,8 @@ x′=x+ϵ⋅sign(∇xJ(θ,x,y))
   - Adversarial test dataset
 
 ### 4. Circle Loss Implementation
-- Provide a brief explanation of Circle Loss and its advantages over traditional loss functions.
+- In Circle Loss, the main objective is to maximize the similarity of positive samples (pairs that belong to the same class) and minimize the similarity of negative samples (pairs that belong to different classes).
+[more information.](https://medium.com/vitrox-publication/understanding-circle-loss-bdaa576312f7)
 - Train the model using Circle Loss.
 - Evaluate model performance on:
   - Original test dataset
