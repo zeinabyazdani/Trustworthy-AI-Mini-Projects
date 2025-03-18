@@ -9,5 +9,4 @@ epsilon   : 0.1
 num_classes: 10
 embedding_size: 128
 adversary_training: False
-adversary_test    : False
 use_circle_loss : False
