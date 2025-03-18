@@ -3,6 +3,7 @@ import torchvision.models as models
 import torch.nn as nn
 import torch.optim as optim
 from pytorch_metric_learning import losses
+from torch.utils.data import DataLoader, TensorDataset
 import os
 import sys
 import yaml
@@ -20,22 +21,33 @@ print("Base Directory:", base_dir)
 
 # Append necessary directories to system path
 sys.path.append(os.path.join(base_dir, "data"))
+sys.path.append(os.path.join(base_dir, "scripts"))
 sys.path.append(os.path.join(base_dir, "config"))
 
 # Import custom modules
-from data_loader import load_data
+from data_loader import load_data, generate_adversary_samples
+from train import training
+from evaluation import knn_accuracy, plot_umap
+
 
 # Load configuration settings from yaml file
 with open(os.path.join(base_dir, "config", "config.yaml"), 'r') as f:
     config = yaml.load(f, Loader=yaml.SafeLoader)
 
 # Set hyperparameters
+learning_rate = config["learning_rate"]
+epochs     = config["epochs"]
 batch_size = config["batch_size"] 
 val_split  = config["val_split"]
 data_path  = config["data_path"]
-learning_rate = config["learning_rate"]
-epsilon       = config["epsilon"]
-loss_func     = config["loss_func"]
+model_name = config["model_name"]
+model_path    = os.path.join(base_dir, 'model', 'saved_models')
+path_save_data= os.path.join(base_dir, 'data', 'dataset')
+# Seting for check robustness
+epsilon = config["epsilon"]
+adv_tr  = config["adversary_training"]
+adv_te  = config["adversary_test"]
+use_circle_loss = config["use_circle_loss"]
 
 # Check and set device
 print("cuda available?", torch.cuda.is_available())
@@ -48,16 +60,45 @@ train_loader, val_loader, test_loader = load_data(batch_size, val_split, data_pa
 model = models.resnet18(pretrained=True)
 
 # Define loss function
-if loss_func == "circle":
+if use_circle_loss:
     loss_fn = losses.CircleLoss()
 else:
     loss_fn = nn.CrossEntropyLoss()
 
 # Define optimiizer
+# optimizer = optim.SGD(model.parameters, lr=learning_rate)
 optimizer = optim.Adam(model.parameters, lr=learning_rate)
+scheduler = optim.lr_scheduler.StepLR(optimizer)
 
 # Training
+training(model, device, train_loader, val_loader, 
+         loss_fn, optimizer, scheduler, epochs, 
+         generate_adversary_samples if adv_tr else None, 
+         model_path, model_name=model_name, plot_loss=True)
 
-# # Evaluate the model on test data
-# print('Model Performance on test set')
-# print(eval(model, device, test_loader).item())
+
+### Generate adversary test loader ###
+# List to store noisy images and labels
+adv_images = []
+adv_labels = []
+# Generate noisy images
+for images, labels in test_loader:
+    images, labels = images.to(device), labels.to(device)
+    # Generate adversarial samples
+    adversary_images = generate_adversary_samples(model, images, labels, loss_fn, epsilon=0.1, manual=False)
+    adv_images.append(adversary_images)
+    adv_labels.append(labels)
+# Concatenate all tensors along the batch dimension
+adv_images = torch.cat(adv_images, dim=0)
+adv_labels = torch.cat(adv_labels, dim=0)
+# Create a new DataLoader with noisy images
+test_loader_adv = DataLoader(TensorDataset(adv_images, adv_labels), batch_size=test_loader.batch_size, shuffle=False)
+
+
+# Evaluate the model on test data
+print('Model Performance on test set')
+knn_accuracy(model, test_loader)
+plot_umap(model, test_loader)
+print('Model Performance on adversary test set')
+knn_accuracy(model, test_loader)
+plot_umap(model, test_loader_adv)
