@@ -4,8 +4,9 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def training(model, device, train_loader, val_loader,
-             loss_fn, optimizer, scheduler=None, epochs=10,
+             loss_fn, optimizer, scheduler=None, epochs=10, adv_function=None,
              model_path=".", model_name='model', plot_loss=True):
     
     # List of training losses for each epoch
@@ -28,6 +29,10 @@ def training(model, device, train_loader, val_loader,
         for images, labels in train_loader:
             # Move data and labels to device
             images, labels = images.to(device), labels.to(device)
+
+            # Generate adversary samples
+            if np.random.rand() > 0.5 and adv_function is not None:
+                images = adv_function(model, images, labels, loss_fn, epsilon=0.1, manual=False, num_pixels=10)
 
             # Set gradients of optimizer to zero for each batch
             optimizer.zero_grad()
@@ -64,11 +69,16 @@ def training(model, device, train_loader, val_loader,
             val_batch_idx = 0
 
             images, labels = images.to(device), labels.to(device)
+
+            # Generate adversary samples
+            if np.random.rand() > 0.5 and adv_function is not None:
+                images = adv_function(model, images, labels, loss_fn, epsilon=0.1, manual=False, num_pixels=10)
+
             outputs = model(images)
             loss = loss_fn(outputs, labels)
 
             loss_val_batch += loss.item()
-            batch_idx += 1
+            val_batch_idx += 1
             val_loss_on_batch = loss_val_batch / batch_idx
 
         # Add validation loss of each epoch to List
