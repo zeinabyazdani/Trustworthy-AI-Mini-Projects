@@ -48,7 +48,6 @@ path_save_data= os.path.join(base_dir, 'data', 'dataset')
 # Seting for check robustness
 epsilon = config["epsilon"]
 adv_tr  = config["adversary_training"]
-adv_te  = config["adversary_test"]
 use_circle_loss = config["use_circle_loss"]
 
 # Check and set device
