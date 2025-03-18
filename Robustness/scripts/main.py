@@ -39,6 +39,8 @@ learning_rate = config["learning_rate"]
 epochs     = config["epochs"]
 batch_size = config["batch_size"] 
 val_split  = config["val_split"]
+num_classes= config["num_classes"]     # Number of classes (for CrossEntropyLoss)
+embedding_size = config["embedding_size"] # Size of the embedding (for Circle Loss)
 data_path  = config["data_path"]
 model_name = config["model_name"]
 model_path    = os.path.join(base_dir, 'model', 'saved_models')
@@ -56,15 +58,23 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Load data
 train_loader, val_loader, test_loader = load_data(batch_size, val_split, data_path)
 
-# Define model
-model = models.resnet18(pretrained=True)
 
-# Define loss function
+### Define model and loss function ###
+# Load pretrained ResNet18 model
+model = models.resnet18(pretrained=True)
 if use_circle_loss:
+    # Replace the final fc layer with a new one for embeddings
+    model.fc = nn.Linear(512, embedding_size)
+    # Define Circle Loss
     loss_fn = losses.CircleLoss()
 else:
+    # Replace the final fc layer with a new one for classification
+    model.fc = nn.Linear(512, num_classes)
+    # Define CrossEntropyLoss
     loss_fn = nn.CrossEntropyLoss()
 
+
+### Training ###
 # Define optimiizer
 # optimizer = optim.SGD(model.parameters, lr=learning_rate)
 optimizer = optim.Adam(model.parameters, lr=learning_rate)
@@ -95,7 +105,7 @@ adv_labels = torch.cat(adv_labels, dim=0)
 test_loader_adv = DataLoader(TensorDataset(adv_images, adv_labels), batch_size=test_loader.batch_size, shuffle=False)
 
 
-# Evaluate the model on test data
+### Evaluate the model on test data ###
 print('Model Performance on test set')
 knn_accuracy(model, test_loader)
 plot_umap(model, test_loader)
