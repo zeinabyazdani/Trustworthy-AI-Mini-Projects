@@ -75,8 +75,8 @@ else:
 
 ### Training ###
 # Define optimiizer
-# optimizer = optim.SGD(model.parameters, lr=learning_rate)
-optimizer = optim.Adam(model.parameters, lr=learning_rate)
+# optimizer = optim.SGD(model.parameters(), lr=learning_rate)
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 scheduler = optim.lr_scheduler.StepLR(optimizer)
 
 # Training
