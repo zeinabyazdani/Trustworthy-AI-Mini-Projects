@@ -43,11 +43,13 @@ x′=x+ϵ⋅sign(∇xJ(θ,x,y))
 
 ### 4. Circle Loss Implementation
 - In Circle Loss, the main objective is to maximize the similarity of positive samples (pairs that belong to the same class) and minimize the similarity of negative samples (pairs that belong to different classes).
-[more information.](https://medium.com/vitrox-publication/understanding-circle-loss-bdaa576312f7)
 - Train the model using Circle Loss.
 - Evaluate model performance on:
   - Original test dataset
   - Adversarial test dataset
+
+[more information](https://medium.com/vitrox-publication/understanding-circle-loss-bdaa576312f7).
+[refrence paper](https://arxiv.org/pdf/2002.10857).
 
 ### 5. Results and Analysis
 - Compare and analyze the results obtained from Scenarios A, B, and Circle Loss training.
