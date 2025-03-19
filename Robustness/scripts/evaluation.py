@@ -1,9 +1,11 @@
 
 import torch
 import numpy as np
-import umap
+# import umap
+import umap.umap_ as umap
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
+
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
