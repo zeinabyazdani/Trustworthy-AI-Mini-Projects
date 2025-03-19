@@ -44,7 +44,7 @@ num_classes= config["num_classes"]     # Number of classes (for CrossEntropyLoss
 embedding_size = config["embedding_size"] # Size of the embedding (for Circle Loss)
 model_name = config["model_name"]
 # Pathes to save data and trained model
-model_path    = os.path.join(base_dir, 'model', 'saved_models')
+model_path    = os.path.join(base_dir, 'saved_models')
 path_save_data= os.path.join(base_dir, 'data', 'dataset')
 # Seting for check robustness
 epsilon = config["epsilon"]
