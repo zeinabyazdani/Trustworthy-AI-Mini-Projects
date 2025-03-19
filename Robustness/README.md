@@ -56,12 +56,5 @@ x′=x+ϵ⋅sign(∇xJ(θ,x,y))
 - Report accuracy on test datasets and plot the loss curves.
 - Visualize 512-dimensional representations in 2D using UMAP.
 
-## Requirements
-- Python 3.x
-- PyTorch
-- NumPy
-- Matplotlib
-- UMAP-learn
-
 ## Author
 Zeinab Yazdani
