@@ -77,7 +77,7 @@ else:
 # Define optimiizer
 # optimizer = optim.SGD(model.parameters(), lr=learning_rate)
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-scheduler = optim.lr_scheduler.StepLR(optimizer)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=6, gamma=0.1)
 
 # Training
 training(model, device, train_loader, val_loader, 
