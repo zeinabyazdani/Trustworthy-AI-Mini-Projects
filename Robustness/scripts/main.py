@@ -13,11 +13,12 @@ import yaml
 try:
     # If running in a `.py` script
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    base_dir    = os.path.join(current_dir, os.pardir)
+    base_dir    = os.path.abspath(os.path.join(current_dir, os.pardir))
 except NameError:
     # If running in a `.ipynb` file
     base_dir    = os.getcwd()
 print("Base Directory:", base_dir)
+
 
 # Append necessary directories to system path
 sys.path.append(os.path.join(base_dir, "data"))
@@ -41,8 +42,8 @@ batch_size = config["batch_size"]
 val_split  = config["val_split"]
 num_classes= config["num_classes"]     # Number of classes (for CrossEntropyLoss)
 embedding_size = config["embedding_size"] # Size of the embedding (for Circle Loss)
-data_path  = config["data_path"]
 model_name = config["model_name"]
+# Pathes to save data and trained model
 model_path    = os.path.join(base_dir, 'model', 'saved_models')
 path_save_data= os.path.join(base_dir, 'data', 'dataset')
 # Seting for check robustness
@@ -55,7 +56,7 @@ print("cuda available?", torch.cuda.is_available())
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load data
-train_loader, val_loader, test_loader = load_data(batch_size, val_split, data_path)
+train_loader, val_loader, test_loader = load_data(batch_size, val_split, path_save_data)
 
 
 ### Define model and loss function ###

@@ -3,7 +3,6 @@ learning_rate : 0.01
 epochs    : 10
 batch_size: 64 
 val_split : 0.2
-data_path : '.'
 model_name: 'model'
 epsilon   : 0.1
 num_classes: 10
