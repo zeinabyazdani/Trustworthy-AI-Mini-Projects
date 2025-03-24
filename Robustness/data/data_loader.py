@@ -29,7 +29,7 @@ def load_data(batch_size=64, val_split=0.2, data_path='.'):
     # Define transforms
     transform = transforms.Compose([
         transforms.ToTensor(),
-        # transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.229, 0.224, 0.225]),
+        transforms.Normalize(mean=[0.4914, 0.4822, 0.4465], std=[0.2470, 0.2435, 0.2616]),
     ])
 
     # Load CIFAR-10 dataset
@@ -42,12 +42,19 @@ def load_data(batch_size=64, val_split=0.2, data_path='.'):
     val_size = math.floor(len(train_ds) * val_split)
     train_idx, val_idx = indices[val_size:], indices[:val_size]
     
-    train_sampler = data.SubsetRandomSampler(train_idx)
-    val_sampler   = data.SubsetRandomSampler(val_idx)
+    # train_sampler = data.SubsetRandomSampler(train_idx)
+    # val_sampler   = data.SubsetRandomSampler(val_idx)
 
-    # Create data loader
-    train_loader = DataLoader(train_ds, batch_size, sampler=train_sampler)
-    val_loader   = DataLoader(train_ds, batch_size, sampler=val_sampler)
+    # # Create data loader
+    # train_loader = DataLoader(train_ds, batch_size, sampler=train_sampler)
+    # val_loader   = DataLoader(train_ds, batch_size, sampler=val_sampler)
+    # test_loader  = DataLoader(test_ds, batch_size, shuffle=True)
+
+    val_ds = torch.utils.data.Subset(train_ds, val_idx)
+    train_ds = torch.utils.data.Subset(train_ds, train_idx)
+    
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
     test_loader  = DataLoader(test_ds, batch_size, shuffle=True)
 
     return train_loader, val_loader, test_loader
@@ -87,6 +94,7 @@ def generate_adversary_samples(model, images, labels, loss_fn, epsilon=0.1, manu
         perturbation = torch.sign(images.grad) * epsilon
         adversary_images = images + perturbation
         # adversary_images = torch.clamp(adversary_images, -1, 1)
+        # adversary_images = torch.clamp(adversary_images, 0, 1)
     else:
         adversary_images = fast_gradient_method(model, images, epsilon, np.inf)
 
