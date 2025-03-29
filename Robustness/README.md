@@ -70,12 +70,10 @@ Follow these steps to set up and use the project:
 !pip install --no-deps -r requirements.txt
 
 ### 4. Add to Python Path
-Add the project to the Python path:
 import sys
 sys.path.append("/kaggle/working/Trustworthy-AI-Mini-Projects/Robustness")
 
 ### 5. Run the Code
-Import and run the main script:
 from scripts import main
 ```
 
