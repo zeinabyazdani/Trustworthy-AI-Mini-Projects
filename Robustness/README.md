@@ -53,8 +53,16 @@ x′=x+ϵ⋅sign(∇xJ(θ,x,y))
 
 ### 5. Results and Analysis
 - Compare and analyze the results obtained from Scenarios A, B, and Circle Loss training.
-- Report accuracy on test datasets and plot the loss curves.
 - Visualize 512-dimensional representations in 2D using UMAP.
+
+
+| accuracy           |  Base  |  Adversary training |  Circle loss |
+|--------------------|--------|---------------------|--------------|
+| Train set          | 0.8662 |              0.9313 |       0.8128 |
+| Validation set     | 0.8517 |              0.9241 |       0.7939 |
+| Test set           | 0.7552 |              0.8060 |       0.7611 |
+| Adversary Test set | 0.5411 |              0.6178 |       0.6251 |
+
 
 ## Usage Guide
 ```markdown
