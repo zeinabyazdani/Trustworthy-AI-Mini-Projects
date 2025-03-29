@@ -14,3 +14,10 @@ _book
 *.epub
 *.mobi
 *.pdf
+
+
+## Test files
+test1.py
+test2.py
+test3.py
+*.pth
