@@ -9,5 +9,5 @@ The goal is to explore and implement AI techniques that emphasize generalization
 - Open for contributions and improvements  
 
 ## Topics
-- Implementation of ResNet-18 and **Generalization** Analysis Across Datasets
-- 
+- Implementation of ResNet-18 and **Generalization** Analysis Across Datasets.
+- Enhancing **Robustness** of CIFAR-10 Using Adversarial Training and Circle Loss Against Adversarial Attacks.
