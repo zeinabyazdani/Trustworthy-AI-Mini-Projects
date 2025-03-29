@@ -56,8 +56,7 @@ print("cuda available?", torch.cuda.is_available())
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load data
-train_loader, val_loader, test_loader = load_data(batch_size, val_split, path_save_data)
-
+train_loader, val_loader, test_loader = load_data(batch_size, val_split, path_save_data, shuffle_=True)
 
 ### Define model and loss function ###
 # Load pretrained ResNet18 model
@@ -76,15 +75,40 @@ else:
 
 ### Training ###
 # Define optimiizer
-# optimizer = optim.SGD(model.parameters(), lr=learning_rate)
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=6, gamma=0.1)
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.8, weight_decay=5e-4)
+# scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=6, gamma=0.1)
+scheduler = None
 
 # Training
 training(model, device, train_loader, val_loader, 
          loss_fn, optimizer, scheduler, epochs, 
          generate_adversary_samples if adv_tr else None, 
-         model_path, model_name=model_name, plot_loss=True)
+         model_path, model_name, plot_loss=True)
+
+
+
+
+
+##################################################################
+######################## Evaluation ##############################
+##################################################################
+
+train_loader, val_loader, test_loader = load_data(batch_size, val_split, path_save_data, shuffle_=False)
+
+### Evaluate the model on original train data ###
+print('Model Performance on train set')
+print(knn_accuracy(model, train_loader))
+plot_umap(model, train_loader)
+
+### Evaluate the model on original val data ###
+print('Model Performance on val set')
+print(knn_accuracy(model, val_loader))
+plot_umap(model, val_loader)
+
+### Evaluate the model on original test data ###
+print('Model Performance on test set')
+print(knn_accuracy(model, test_loader))
+plot_umap(model, test_loader)
 
 
 ### Generate adversary test loader ###
@@ -99,16 +123,13 @@ for images, labels in test_loader:
     adv_images.append(adversary_images)
     adv_labels.append(labels)
 # Concatenate all tensors along the batch dimension
-adv_images = torch.cat(adv_images, dim=0)
-adv_labels = torch.cat(adv_labels, dim=0)
+adv_images = torch.cat(adv_images, dim=0).to('cpu')
+adv_labels = torch.cat(adv_labels, dim=0).to('cpu')
 # Create a new DataLoader with noisy images
 test_loader_adv = DataLoader(TensorDataset(adv_images, adv_labels), batch_size=test_loader.batch_size, shuffle=False)
 
 
-### Evaluate the model on test data ###
-print('Model Performance on test set')
-knn_accuracy(model, test_loader)
-plot_umap(model, test_loader)
+### Evaluate the model on adversary test data ###
 print('Model Performance on adversary test set')
-knn_accuracy(model, test_loader)
+print(knn_accuracy(model, test_loader_adv))
 plot_umap(model, test_loader_adv)

@@ -57,8 +57,8 @@ def training(model, device, train_loader, val_loader,
         loss_train_epoch.append(loss_on_batch)
 
         # scheduler for learning rate
-        scheduler.step()
-
+        if scheduler:
+            scheduler.step()
 
         # Model in evaluation mode
         model.eval()
@@ -79,7 +79,7 @@ def training(model, device, train_loader, val_loader,
 
             loss_val_batch += loss.item()
             val_batch_idx += 1
-            val_loss_on_batch = loss_val_batch / batch_idx
+            val_loss_on_batch = loss_val_batch / val_batch_idx
 
         # Add validation loss of each epoch to List
         loss_val_epoch.append(val_loss_on_batch)

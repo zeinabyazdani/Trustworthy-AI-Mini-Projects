@@ -1,8 +1,8 @@
 
 import torch
 import numpy as np
-# import umap
-import umap.umap_ as umap
+import umap
+# import umap.umap_ as umap
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -46,8 +46,9 @@ def extract_features(model, dataloader):
 # Evaluate model using KNN
 def knn_accuracy(model, test_loader):
     features = extract_features(model, test_loader)
-    labels = np.array([label for _, label in test_loader.dataset])  # Get labels
-    
+    # labels = np.array([label for _, label in test_loader.dataset])  # Get labels
+    labels = torch.cat([labels for _, labels in test_loader], dim=0).cpu().numpy()
+
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(features, labels)
     accuracy = knn.score(features, labels)
@@ -58,8 +59,9 @@ def knn_accuracy(model, test_loader):
 # Visualize feature distribution using UMAP
 def plot_umap(model, test_loader):
     features = extract_features(model, test_loader)
-    labels = np.array([label for _, label in test_loader.dataset])
-    
+    # labels = np.array([label for _, label in test_loader.dataset])
+    labels = torch.cat([labels for _, labels in test_loader], dim=0).cpu().numpy()
+
     umap_proj = umap.UMAP(n_components=2).fit_transform(features)
     plt.scatter(umap_proj[:, 0], umap_proj[:, 1], c=labels, cmap='Spectral', alpha=0.5)
     plt.title("UMAP Projection of Test Data")
