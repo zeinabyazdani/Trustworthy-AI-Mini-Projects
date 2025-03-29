@@ -56,5 +56,40 @@ x′=x+ϵ⋅sign(∇xJ(θ,x,y))
 - Report accuracy on test datasets and plot the loss curves.
 - Visualize 512-dimensional representations in 2D using UMAP.
 
+
+```markdown
+## Usage Guide
+
+Follow these steps to set up and use the project:
+
+### 1. Clone the Repository
+```bash
+!git clone https://github.com/zeinabyazdani/Trustworthy-AI-Mini-Projects.git
+```
+
+### 2. Navigate to the Project Directory
+```bash
+%cd '/kaggle/working/Trustworthy-AI-Mini-Projects/Robustness'
+```
+
+### 3. Install Dependencies
+```bash
+!pip install --no-deps -r requirements.txt
+```
+
+### 4. Add to Python Path
+Add the project to the Python path:
+```python
+import sys
+sys.path.append("/kaggle/working/Trustworthy-AI-Mini-Projects/Robustness")
+```
+
+### 5. Run the Code
+Import and run the main script:
+```python
+from scripts import main
+```
+
+
 ## Author
 Zeinab Yazdani
